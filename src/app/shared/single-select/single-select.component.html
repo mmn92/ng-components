@@ -1,1 +1,20 @@
-<p>single-select works!</p>
+<div class="selector__container">
+  <form class="selector__form">
+    <mat-form-field appearance="fill">
+      <mat-label>Label</mat-label>
+      <input
+        type="text"
+        placeholder="Placeholder"
+        matInput
+        [matAutocomplete]="autocomplete"
+        [formControl]="inputControl"
+      />
+
+      <mat-autocomplete #autocomplete="matAutocomplete">
+        <mat-option *ngFor="let item of itemList" [value]="item">
+          {{ item }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>
