@@ -1,8 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
-const updatedList = ['New Value', 'Updated', 'Mocked'];
+type Item = {
+  description: string;
+  value: string;
+};
+const updatedList: Array<Item> = [
+  { description: 'New Value', value: 'first' },
+  { description: 'Updated', value: 'second' },
+  { description: 'Mocked', value: 'third' },
+];
 @Component({
   selector: 'app-single-select',
   templateUrl: './single-select.component.html',
@@ -10,15 +19,27 @@ const updatedList = ['New Value', 'Updated', 'Mocked'];
 })
 export class SingleSelectComponent implements OnInit {
   // @Input()
-  itemList = ['First item', 'Second item', 'Third item'];
+  itemList: Array<Item> = [
+    { description: 'First item', value: 'first' },
+    { description: 'Second item', value: 'second' },
+    { description: 'Third item', value: 'third' },
+  ];
   // @Input()
-  inputHandler = (val: Observable<any | string>) => {
-    val.subscribe((value) => {
-      console.log(value);
-      if (value.length > 4) {
-        this.itemList = updatedList;
-      }
-    });
+  inputHandler = (val: Observable<Item | string>) => {
+    val
+      .pipe(filter((value) => typeof value === 'string'))
+      .subscribe((value) => {
+        console.log(value);
+        if (typeof value === 'string' && value.length > 4) {
+          this.itemList = updatedList;
+        }
+      });
+  };
+  // @Input()
+  displayFn = (item: Item) => item.description;
+  //@Input()
+  handleSelect = (item: Item) => {
+    console.log('Selected item: ', item);
   };
 
   inputControl = new FormControl('');

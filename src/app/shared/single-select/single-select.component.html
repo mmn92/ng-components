@@ -10,9 +10,13 @@
         [formControl]="inputControl"
       />
 
-      <mat-autocomplete #autocomplete="matAutocomplete">
+      <mat-autocomplete
+        #autocomplete="matAutocomplete"
+        [displayWith]="displayFn"
+        (optionSelected)="handleSelect($event.option.value)"
+      >
         <mat-option *ngFor="let item of itemList" [value]="item">
-          {{ item }}
+          {{ displayFn(item) }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
